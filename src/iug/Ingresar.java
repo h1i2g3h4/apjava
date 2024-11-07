@@ -41,13 +41,13 @@ public class Ingresar extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        body.setBackground(new java.awt.Color(255, 255, 255));
+        body.setBackground(new java.awt.Color(204, 0, 0));
 
-        header.setBackground(new java.awt.Color(255, 255, 255));
+        header.setBackground(new java.awt.Color(255, 0, 0));
         header.setForeground(new java.awt.Color(0, 0, 0));
 
         lblTitu.setFont(new java.awt.Font("Segoe UI", 1, 40)); // NOI18N
-        lblTitu.setForeground(new java.awt.Color(0, 0, 0));
+        lblTitu.setForeground(new java.awt.Color(255, 255, 255));
         lblTitu.setText("login");
 
         javax.swing.GroupLayout headerLayout = new javax.swing.GroupLayout(header);
@@ -157,9 +157,29 @@ public class Ingresar extends javax.swing.JFrame {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
 
-    
+    // Verificación del campo de cédula
+    if (txtCC.getText().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "El campo de cédula no puede estar vacío.");
+        txtCC.requestFocus();
+        return;
+    }
 
-   
+    // Verificar que el campo de cédula solo contenga números
+    try {
+        Long.parseLong(txtCC.getText());
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "El campo de cédula solo puede contener números.");
+        txtCC.requestFocus();
+        return;
+    }
+
+    // Verificación del campo de contraseña
+    if (pss.getPassword().length == 0) {
+        JOptionPane.showMessageDialog(this, "El campo de contraseña no puede estar vacío.");
+        pss.requestFocus();
+        return;
+    }
+        
     String CC = txtCC.getText();
     String account_password = new String(pss.getPassword());
 
