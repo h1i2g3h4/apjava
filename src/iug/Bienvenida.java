@@ -43,7 +43,7 @@ public class Bienvenida extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jPanel4.setBackground(new java.awt.Color(34, 40, 49));
+        jPanel4.setBackground(new java.awt.Color(255, 102, 0));
         jPanel4.setForeground(new java.awt.Color(34, 40, 49));
 
         txtUser.setFont(new java.awt.Font("Segoe UI", 1, 40)); // NOI18N

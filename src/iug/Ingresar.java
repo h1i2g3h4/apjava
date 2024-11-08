@@ -3,10 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package iug;
-
-import iug.Bienvenida;
+import Persistencia.Conexion2;
+import java.sql.Connection;
 import javax.swing.JOptionPane;
-
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  *
@@ -19,6 +21,13 @@ public class Ingresar extends javax.swing.JFrame {
      */
     public Ingresar() {
         initComponents();
+        pss.addKeyListener(new java.awt.event.KeyAdapter() {
+    public void keyPressed(java.awt.event.KeyEvent evt) {
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            btnLoginActionPerformed(null);
+        }
+    }
+});
     }
 
     /**
@@ -31,60 +40,24 @@ public class Ingresar extends javax.swing.JFrame {
     private void initComponents() {
 
         body = new javax.swing.JPanel();
+        footer = new javax.swing.JPanel();
+        btnLogin = new javax.swing.JButton();
         header = new javax.swing.JPanel();
         lblTitu = new javax.swing.JLabel();
         lblCC = new javax.swing.JLabel();
         txtCC = new javax.swing.JTextField();
         lblContra = new javax.swing.JLabel();
-        btnLogin = new javax.swing.JButton();
         pss = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        body.setBackground(new java.awt.Color(204, 0, 0));
+        body.setBackground(new java.awt.Color(255, 102, 0));
 
-        header.setBackground(new java.awt.Color(255, 0, 0));
-        header.setForeground(new java.awt.Color(0, 0, 0));
+        footer.setBackground(new java.awt.Color(255, 102, 0));
 
-        lblTitu.setFont(new java.awt.Font("Segoe UI", 1, 40)); // NOI18N
-        lblTitu.setForeground(new java.awt.Color(255, 255, 255));
-        lblTitu.setText("login");
-
-        javax.swing.GroupLayout headerLayout = new javax.swing.GroupLayout(header);
-        header.setLayout(headerLayout);
-        headerLayout.setHorizontalGroup(
-            headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(headerLayout.createSequentialGroup()
-                .addGap(291, 291, 291)
-                .addComponent(lblTitu, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        headerLayout.setVerticalGroup(
-            headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(headerLayout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(lblTitu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(16, 16, 16))
-        );
-
-        lblCC.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
-        lblCC.setForeground(new java.awt.Color(0, 0, 0));
-        lblCC.setText("Cedula");
-
-        txtCC.setBackground(new java.awt.Color(102, 102, 0));
-        txtCC.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCCActionPerformed(evt);
-            }
-        });
-
-        lblContra.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
-        lblContra.setForeground(new java.awt.Color(0, 0, 0));
-        lblContra.setText("Contraseña");
-
-        btnLogin.setBackground(new java.awt.Color(51, 255, 51));
+        btnLogin.setBackground(new java.awt.Color(0, 0, 153));
         btnLogin.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        btnLogin.setForeground(new java.awt.Color(29, 34, 42));
+        btnLogin.setForeground(new java.awt.Color(255, 255, 255));
         btnLogin.setText("INGRESAR");
         btnLogin.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
@@ -93,52 +66,95 @@ public class Ingresar extends javax.swing.JFrame {
             }
         });
 
-        pss.setBackground(new java.awt.Color(102, 102, 0));
-        pss.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pssActionPerformed(evt);
-            }
-        });
+        javax.swing.GroupLayout footerLayout = new javax.swing.GroupLayout(footer);
+        footer.setLayout(footerLayout);
+        footerLayout.setHorizontalGroup(
+            footerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, footerLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(283, 283, 283))
+        );
+        footerLayout.setVerticalGroup(
+            footerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(footerLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnLogin)
+                .addContainerGap(63, Short.MAX_VALUE))
+        );
+
+        header.setBackground(new java.awt.Color(255, 102, 0));
+        header.setForeground(new java.awt.Color(34, 40, 49));
+
+        lblTitu.setFont(new java.awt.Font("Segoe UI", 1, 40)); // NOI18N
+        lblTitu.setForeground(new java.awt.Color(0, 0, 153));
+        lblTitu.setText("INGRESAR");
+
+        javax.swing.GroupLayout headerLayout = new javax.swing.GroupLayout(header);
+        header.setLayout(headerLayout);
+        headerLayout.setHorizontalGroup(
+            headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(headerLayout.createSequentialGroup()
+                .addGap(267, 267, 267)
+                .addComponent(lblTitu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(243, 243, 243))
+        );
+        headerLayout.setVerticalGroup(
+            headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(headerLayout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(lblTitu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(15, 15, 15))
+        );
+
+        lblCC.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        lblCC.setForeground(new java.awt.Color(0, 0, 153));
+        lblCC.setText("Cedula");
+
+        txtCC.setBackground(new java.awt.Color(0, 0, 255));
+
+        lblContra.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        lblContra.setForeground(new java.awt.Color(0, 0, 153));
+        lblContra.setText("Contraseña");
+
+        pss.setBackground(new java.awt.Color(0, 0, 255));
 
         javax.swing.GroupLayout bodyLayout = new javax.swing.GroupLayout(body);
         body.setLayout(bodyLayout);
         bodyLayout.setHorizontalGroup(
             bodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(header, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(footer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(bodyLayout.createSequentialGroup()
-                .addContainerGap(128, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(bodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(txtCC, javax.swing.GroupLayout.PREFERRED_SIZE, 486, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(pss, javax.swing.GroupLayout.PREFERRED_SIZE, 487, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(91, Short.MAX_VALUE))
-            .addGroup(bodyLayout.createSequentialGroup()
-                .addGap(280, 280, 280)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bodyLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblCC)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(bodyLayout.createSequentialGroup()
-                .addGap(237, 237, 237)
+                .addGap(291, 291, 291))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bodyLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblContra)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(bodyLayout.createSequentialGroup()
-                .addGap(279, 279, 279)
-                .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(header, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(253, 253, 253))
         );
         bodyLayout.setVerticalGroup(
             bodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bodyLayout.createSequentialGroup()
                 .addComponent(header, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblCC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtCC, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(lblContra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pss, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
-                .addComponent(btnLogin)
-                .addGap(82, 82, 82))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addComponent(footer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -156,71 +172,60 @@ public class Ingresar extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+         /**  Trae lo que puso el usuario a una variable q podamos usar    */
+            String cc = txtCC.getText();
+            String loginpassword = new String(pss.getPassword());
+        /**    Conecta base de datos  */
+            Conexion2 conect = new Conexion2();
+            Connection conexion = conect.getConexion();
 
-    // Verificación del campo de cédula
-    if (txtCC.getText().isEmpty()) {
-        JOptionPane.showMessageDialog(this, "El campo de cédula no puede estar vacío.");
-        txtCC.requestFocus();
-        return;
-    }
+        /**  Parte verdadera valida q debe haber informacion en ambos campos ///Partte negativa hace validacion de los datos*/
+            if (cc.isEmpty() || loginpassword.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Algun campo está vacío");
+            } else {
+        try {
+            /**    hace consulta solo para saber si si existe tal registro lo q significaria q se le puede dar acceso  */
+            String query = "SELECT * FROM logi WHERE cc = ? AND loginpassword = ?";
+            PreparedStatement statement = conexion.prepareStatement(query);
+            statement.setString(1, cc);
+            statement.setString(2, loginpassword);
+            ResultSet resultado = statement.executeQuery();
 
-    // Verificar que el campo de cédula solo contenga números
-    try {
-        Long.parseLong(txtCC.getText());
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "El campo de cédula solo puede contener números.");
-        txtCC.requestFocus();
-        return;
-    }
+/**    resultado es el objeto q se crea de la conculta sql y el numero (2) es la posicion de ese objeto */
+            if (resultado.next()) {// Si hay un resultado
+                String cedula=resultado.getString(3);
+                String nombre=resultado.getString(2);
+                String contraseña=resultado.getString(4);
+                String nuevo=nombre;
+              
 
-    // Verificación del campo de contraseña
-    if (pss.getPassword().length == 0) {
-        JOptionPane.showMessageDialog(this, "El campo de contraseña no puede estar vacío.");
-        pss.requestFocus();
-        return;
-    }
-        
-    String CC = txtCC.getText();
-    String account_password = new String(pss.getPassword());
-
+                this.dispose();
+/**   crea y envia a una nueva vista   y envia  a "nuevo" que es el nombre del usuarioa la siguiuente vista  */
+                Bienvenida vi = new Bienvenida();
+                // se usan para la vista "Bienvenida"
+                vi.setUser(nuevo);
+                vi.setVisible(true);
+                // enviar demas datos de la consulta
    
-    Bienvenida bienvenida = new Bienvenida();
-
-
-    bienvenida.setVisible(true);
-
-  
-    this.dispose(); // o puedes usar this.setVisible(false);
+            } else {
+                //  si la cedula o la contraseña son incorrectas, manda un mensaje y no deja ingresar
+                JOptionPane.showMessageDialog(null, "Cédula o contraseña incorrecta");
+                txtCC.setText("");
+                pss.setText("");
+                conect.CerrarConexion();
+            }
+        } catch (SQLException e) {
+            //  si hay algun error con la consulta, se muestrar en el Output o consola
+            JOptionPane.showMessageDialog(null, "Error al ejecutar la consulta: " + e.getMessage());
+        }
+    }
     }//GEN-LAST:event_btnLoginActionPerformed
-
-    private void txtCCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCCActionPerformed
-      
-    if (txtCC.getText().isEmpty()) {
-        JOptionPane.showMessageDialog(this, "El campo de cédula no puede estar vacío.");
-        txtCC.requestFocus();
-        return;
-    }
-  
-    try {
-        Long.parseLong(txtCC.getText());
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "El campo de cédula solo puede contener números.");
-        txtCC.requestFocus();
-}
-    }//GEN-LAST:event_txtCCActionPerformed
-
-    private void pssActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pssActionPerformed
-    
-    if (pss.getPassword().length == 0) {
-        JOptionPane.showMessageDialog(this, "El campo de contraseña no puede estar vacío.");
-        pss.requestFocus();
-    }
-    }//GEN-LAST:event_pssActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel body;
     private javax.swing.JButton btnLogin;
+    private javax.swing.JPanel footer;
     private javax.swing.JPanel header;
     private javax.swing.JLabel lblCC;
     private javax.swing.JLabel lblContra;

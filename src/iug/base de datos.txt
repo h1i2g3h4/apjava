@@ -1,0 +1,22 @@
+CREATE DATABASE login;
+USE login;
+
+-- Tabla de usuarios
+CREATE TABLE logi (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50),
+    cc int(100),
+    loginpassword VARCHAR(255)
+);
+
+INSERT INTO logi (nombre, cc, loginpassword) VALUES
+('HIGHLANDER NIÑO', 1000988075, '123'),
+('Carlos Mendoza', 1023456789, 'passCarlos123'),
+('Ana Rodríguez', 1098765432, 'anaRod2024#'),
+('Luis García', 1122334455, 'luisG123$pass'),
+('María Pérez', 1199887766, 'mariaP456*2024'),
+('José Ramírez', 1234567890, 'joseR*secure'),
+('Laura Sánchez', 1357924680, 'lauraS890!pass'),
+('Pedro López', 1432657891, 'pedroL2024&pass');
+
+select* from logi;
